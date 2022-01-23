@@ -25,6 +25,7 @@ _Reset:
 
 .section .text
 Reset_Handler:
+
 	cpsid   if 										// Mask Interrupts
 
 	ldr r4, =UART4_TDR 								// UART: print 'A'
@@ -45,9 +46,9 @@ Reset_Handler:
 	mcr     p15, 0, r0, c1, c0, 1 					// Write CP15 Auxiliary Control Register
 
 													// Set Vector Base Address Register (VBAR) to point to this application's vector table
-	ldr    r0, =0xC2000040
+	ldr    r0, =0x2ffc0000
 	mcr    p15, 0, r0, c12, c0, 0
-
+    
     												// FIQ stack: Fill with FEFF
     msr cpsr_c, MODE_FIQ
     ldr r1, =_fiq_stack_start

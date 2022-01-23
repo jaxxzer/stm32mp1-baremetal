@@ -77,7 +77,7 @@ ELF 	= $(BUILDDIR)/$(BINARYNAME).elf
 HEX 	= $(BUILDDIR)/$(BINARYNAME).hex
 BIN 	= $(BUILDDIR)/$(BINARYNAME).bin
 
-all: Makefile $(ELF) $(UIMAGENAME)
+all: Makefile $(ELF) $(BIN) $(HEX)
 
 install:
 	cp $(UIMAGENAME) $(SDCARD_MOUNT_PATH)
