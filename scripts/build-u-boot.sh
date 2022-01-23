@@ -49,8 +49,10 @@ echo "make -j16 O=../build DEVICE_TREE=$DT CROSS_COMPILE=arm-none-eabi- all"
 echo ""
 
 rm -rf ../build
+CROSS_COMPILE=arm-none-eabi-
+export CROSS_COMPILE
 make O=../build DEVICE_TREE=$DT CROSS_COMPILE=arm-none-eabi- stm32mp15x_baremetal_defconfig
-make -j16 O=../build DEVICE_TREE=$DT CROSS_COMPILE=arm-none-eabi- all
+make -j16 O=../build DEVICE_TREE=$DT CROSS_COMPILE=arm-none-eabi- all VERBOSE=1
 
 cd ../..
 
