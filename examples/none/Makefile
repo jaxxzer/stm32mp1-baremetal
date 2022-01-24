@@ -1,7 +1,7 @@
 BINARYNAME = main
 BUILDDIR = build
 
-OPTFLAG = -O0
+OPTFLAG = -Ofast
 
 EXTLIBDIR = ../../third-party
 SHAREDDIR = ../shared
