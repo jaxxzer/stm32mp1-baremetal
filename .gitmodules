@@ -1,0 +1,6 @@
+[submodule "third-party/STM32CubeMP1"]
+	path = third-party/STM32CubeMP1
+	url = https://github.com/STMicroelectronics/STM32CubeMP1
+[submodule "third-party/cmsis_5"]
+	path = third-party/cmsis_5
+	url = https://github.com/arm-software/cmsis_5

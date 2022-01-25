@@ -1,7 +1,26 @@
+#include "dsp/none.h"
 #include "main.h"
 #include "stm32mp1xx_hal.h"
 #include "inttypes.h"
-
+#include "arm_math.h"
+#include "arm_common_tables.h"
+arm_status arm_rfft_fast_init_f32_p(
+  arm_rfft_fast_instance_f32 * S,
+  uint16_t fftLen)
+{
+  arm_cfft_instance_f32 * Sint;
+  /*  Initialise the default arm status */
+  arm_status status = ARM_MATH_SUCCESS;
+  /*  Initialise the FFT length */
+  Sint = &(S->Sint);
+  Sint->fftLen = fftLen/2;
+  S->fftLenRFFT = fftLen;
+    Sint->bitRevLength = ARMBITREVINDEXTABLE_32_TABLE_LENGTH;
+    Sint->pBitRevTable = (uint16_t *)armBitRevIndexTable32;
+		Sint->pTwiddle     = (float32_t *) twiddleCoef_32;
+		S->pTwiddleRFFT    = (float32_t *) twiddleCoef_rfft_64;
+  return (status);
+}
 void main2()
 {
 	__HAL_RCC_GPIOD_CLK_ENABLE();
@@ -20,6 +39,7 @@ void bootSecondary()
 	
 }
 void main() {
+
 	L1C_EnableCaches();
 	L1C_EnableBTAC();
 	// enable HSE (24MHz)
@@ -107,18 +127,55 @@ void main() {
 	// switch mcu clock to pll3_p_ck
 	uint32_t MCUSSRC = 0x3;
 	RCC->MSSCKSELR = MCUSSRC;
-
+	// __builtin_arm_sadd8(1,2);
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 
 	int tmp = GPIOA->MODER;
 	tmp &= ~((0b10<<28)|(0b10<<22));
 	GPIOA->MODER = tmp;
-	main2();
-	for(;;) {
-		for(int i = 0; i < 0x10000; i++);
-		GPIOA->ODR = (~(GPIOA->ODR)) & ((1<<14) | (1<<11));
-
+	float input_buffer[64];
+	float output_buffer[64];
+	float a = 1.0f;
+	float b = 2.0f;
+	float c = a + b;
+	for (int i = 0; i < 64; i++) {
+		input_buffer[i] = i;
 	}
+	arm_rfft_fast_instance_f32 rfft_instance;
+	arm_rfft_fast_init_f32_p(&rfft_instance, 64);
+	// for(int i = 0; i < 0x1000000; i++);
+	// GPIOA->ODR &= ~((1<<14) | (1<<11));
+	// for(int i = 0; i < 0x1000000; i++);
+	for (int i = 0; i < 64; i++){
+	GPIOA->ODR &= ~((1<<14) | (1<<11));
+		GPIOA->ODR |= ((1<<14) | (1<<11));
+	}
+
+	GPIOA->ODR &= ~((1<<14) | (1<<11));
+
+	arm_rfft_fast_f32(&rfft_instance, input_buffer, output_buffer, 0);
+	// GPIOA->ODR |= ((1<<14) | (1<<11));
+	// for(int i = 0; i < 0x10000; i++);
+	GPIOA->ODR |= ((1<<14) | (1<<11));
+	// arm_rfft_fast_f32(&rfft_instance, input_buffer, output_buffer, 0);
+
+
+	for (int i = 0; i < 64; i++) {
+		input_buffer[i] = i;
+	}
+	arm_rfft_fast_init_f32_p(&rfft_instance, 64);
+	// for(int i = 0; i < 0x1000000; i++);
+	// GPIOA->ODR &= ~((1<<14) | (1<<11));
+	// for(int i = 0; i < 0x1000000; i++);
+	GPIOA->ODR &= ~((1<<14) | (1<<11));
+		GPIOA->ODR |= ((1<<14) | (1<<11));
+	GPIOA->ODR &= ~((1<<14) | (1<<11));
+
+	arm_rfft_fast_f32(&rfft_instance, input_buffer, output_buffer, 0);
+	// GPIOA->ODR |= ((1<<14) | (1<<11));
+	// for(int i = 0; i < 0x10000; i++);
+	GPIOA->ODR |= ((1<<14) | (1<<11));
+	for(;;);
 
 }
 
