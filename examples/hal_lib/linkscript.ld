@@ -4,18 +4,15 @@ ENTRY(_Reset)
 
 MEMORY
 {
-    /*ROM (rx) : ORIGIN = 0xC2000040, LENGTH = 1M*/
-    /*ROM (rx) : ORIGIN = 0x2FFE0000, LENGTH = 128K*/
-    /*RAM (rwx): ORIGIN = 0xC0200000, LENGTH = 1M*/
-    RAM (rwx): ORIGIN = 0x2FFC0000, LENGTH = 256K
+    ROM (rx) : ORIGIN = 0xC2000040, LENGTH = 1M
+    RAM (rwx): ORIGIN = 0xC0200000, LENGTH = 1M
 	SRAM1 (rwx) : ORIGIN = 0x10000000, LENGTH = 128K
 	SRAM2 (rwx) : ORIGIN = 0x10020000, LENGTH = 128K
 	SRAM3 (rwx) : ORIGIN = 0x10040000, LENGTH = 64K
 	SRAM4 (rwx) : ORIGIN = 0x10050000, LENGTH = 64K
 }
 
-/*__HEAP_SIZE = 0x40000;*/
-__HEAP_SIZE = 0x400;
+__HEAP_SIZE = 0x40000;
 
 SECTIONS
 {
@@ -32,7 +29,7 @@ SECTIONS
 		KEEP (*(.fini)) /* libc dtors */
 
         . = ALIGN(8);
-     } > RAM
+     } > ROM
 
 	/* .rodata sections (constants, strings, etc.) */
 	.rodata :
@@ -41,15 +38,15 @@ SECTIONS
 		*(.rodata)         
 		*(.rodata*) 
 		. = ALIGN(8);
-	} > RAM
+	} > ROM
 
 	/* used for unwinding (probably not used, but is ignored if your app doens't use exceptions */
-	.ARM.extab	 : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >RAM
+	.ARM.extab	 : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >ROM
 	.ARM : {
 		__exidx_start = .;
 		*(.ARM.exidx*)
 		__exidx_end = .;
-	} >RAM
+	} >ROM
 
 	.preinit_array :
 	{
@@ -58,7 +55,7 @@ SECTIONS
 		KEEP (*(.preinit_array*))
 		PROVIDE_HIDDEN (__preinit_array_end = .);
 		. = ALIGN(8);
-	} > RAM
+	} > ROM
 
 	.init_array :
 	{
@@ -68,7 +65,7 @@ SECTIONS
 		KEEP (*(.init_array*))
 		PROVIDE_HIDDEN (__init_array_end = .);
 		. = ALIGN(8);
-	} > RAM
+	} > ROM
 
 	.fini_array :
 	{
@@ -78,7 +75,7 @@ SECTIONS
 		KEEP (*(.fini_array*))
 		PROVIDE_HIDDEN (__fini_array_end = .);
 		. = ALIGN(8);
-	} > RAM
+	} > ROM
 
 
     _text_end = .;
@@ -115,7 +112,7 @@ SECTIONS
 	end = . ;
 
     _user_stack_start = _ram_aligned_end; 
-    _user_stack_end = _user_stack_start + 0x1000;
+    _user_stack_end = _user_stack_start + 0x10000;
 
     _svc_stack_start = _user_stack_end;
     _svc_stack_end = _svc_stack_start + 0x100;

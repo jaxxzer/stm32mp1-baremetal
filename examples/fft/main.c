@@ -168,7 +168,7 @@ void main() {
 	dothing();
 	dothing();
 	for(;;){
-		// dothing();
+		dothing();
 	};
 
 }

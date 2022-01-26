@@ -173,3 +173,21 @@ void main() {
 
 }
 
+
+// Handy utility when using a debugger
+void soft_breakpoint() {
+	volatile int stop = 1;
+	while (stop) {
+		// Attach a debugger and manually change the value at the address of `stop` in RAM from 1 to 0
+	}
+}
+
+void IRQ_Initialize(void) {
+	// do nothing, just a stub
+}
+
+void Error_Handler() {
+	while(1) {
+		// handle error
+	}
+}
