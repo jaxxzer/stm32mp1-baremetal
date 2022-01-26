@@ -14,7 +14,7 @@ ENTRYPOINT 	= 0xC2000040
 OBJECTS   = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(basename $(SOURCES))))
 DEPS   	  = $(addprefix $(OBJDIR)/, $(addsuffix .d, $(basename $(SOURCES))))
 
-MCU ?=   -march=armv7-a+neon-vfpv4 -mfpu=neon-vfpv4 -mfloat-abi=hard
+MCU ?=   -march=armv7-a+neon-vfpv4 -mfpu=neon -mfloat-abi=hard
 
 ARCH_CFLAGS ?= -DUSE_FULL_LL_DRIVER \
 			   -DSTM32MP157Cxx \
@@ -39,6 +39,8 @@ CFLAGS =  \
 		 $(MCU) \
 		 $(INCLUDES) \
 		 -fdata-sections -ffunction-sections \
+		 -ffast-math \
+		 -ftree-vectorize \
 		 -nostartfiles \
 		 $(EXTRACFLAGS)\
 		 -mtune=cortex-a7\

@@ -1,0 +1,41 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "mp1",
+            "cwd": "${workspaceRoot}",
+            "executable": "examples/fft/build/main.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "board/stm32mp15x_dk2.cfg",
+                "${workspaceRoot}/examples/openocd.cfg"
+            ],
+            "svdFile": "svd/stm32g4/STM32G431xx.svd"
+        },
+        {
+            "name": "mp2",
+            "cwd": "${workspaceRoot}",
+            "executable": "examples/fft/build/main.elf",
+            "request": "attach",
+            "type": "gdb",
+            "target": "localhost:8888",
+            "gdbpath": "/usr/bin/arm-none-eabi-gdb",
+            "remote": true,
+        },
+        {
+            "name": "mp3",
+            "type": "cppdbg",
+            "request": "launch",
+            "remote": true,
+            "program": "${workspaceRoot}/examples/fft/build/main.elf",
+            "miDebuggerPath": "/usr/bin/arm-none-eabi-gdb",
+            "miDebuggerServerAddress": "localhost:8888",
+            "cwd": "${workspaceRoot}",
+        },
+    ]
+}
