@@ -36,5 +36,5 @@ INCLUDES = -I. \
 
 LINK_STDLIB =
 
-include ../shared/makefile-common.mk
+include ../shared/makefile-common2.mk
 

@@ -31,7 +31,7 @@ SECTIONS
 		*(.rodata)         
 		*(.rodata*) 
 		. = ALIGN(8);
-	} > SRAM1
+	} > RAM
 
     _text_end = .;
 
@@ -43,7 +43,7 @@ SECTIONS
         *(.data*)
         . = ALIGN(8);
         _data_end = .;
-    } > SRAM1
+    } > RAM
 
     .bss : {
         _bss_start = .;
@@ -52,7 +52,7 @@ SECTIONS
 		*(COMMON)  /* required for libc, such as __lock___atexit_recursive_mutex */
         . = ALIGN(8);
         _bss_end = .;
-    } > SRAM1
+    } > RAM
 
 	end = . ;
 

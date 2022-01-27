@@ -14,18 +14,18 @@ ENTRYPOINT 	= 0xC2000040
 OBJECTS   = $(addprefix $(OBJDIR)/, $(addsuffix .o, $(basename $(SOURCES))))
 DEPS   	  = $(addprefix $(OBJDIR)/, $(addsuffix .d, $(basename $(SOURCES))))
 
-MCU ?=  -mcpu=cortex-a7 -march=armv7ve -mfpu=neon-vfpv4 -mlittle-endian -mfloat-abi=hard
+MCU ?=  -mcpu=cortex-a7 -march=armv7ve -mfpu=neon -mlittle-endian -mfloat-abi=hard
 
 ARCH_CFLAGS ?= -DUSE_FULL_LL_DRIVER \
 			   -DSTM32MP157Cxx \
 			   -DSTM32MP1 \
 			   -DCORE_CA7 \
 
-OPTFLAG ?= -O0
+OPTFLAG ?= -Ofast
 
 AFLAGS = $(MCU)
 
-CFLAGS = -g2 \
+CFLAGS = -ggdb \
 		 -fno-common \
 		 $(ARCH_CFLAGS) \
 		 $(MCU) \
