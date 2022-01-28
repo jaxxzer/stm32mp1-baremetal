@@ -1,7 +1,7 @@
 BINARYNAME = main
 BUILDDIR = build
 
-OPTFLAG = -Ofast
+OPTFLAG = -O0
 
 EXTLIBDIR = ../../third-party
 SHAREDDIR = ../shared
@@ -25,6 +25,7 @@ SOURCES = startup.s \
 		  $(STM32HALDIR)/Src/stm32mp1xx_hal_uart_ex.c \
 		  $(DSPDIR)/Source/TransformFunctions/TransformFunctions.c \
 		  $(DSPDIR)/Source/CommonTables/CommonTables.c \
+		  $(DSPDIR)/Source/FastMathFunctions/FastMathFunctions.c \
 
 INCLUDES = -I. \
 		   -I$(EXTLIBDIR)/STM32MP1xx_HAL_Driver/Inc \

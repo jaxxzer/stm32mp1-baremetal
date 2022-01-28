@@ -1,4 +1,3 @@
-#include "dsp/none.h"
 #include "main.h"
 #include "stm32mp1xx_hal.h"
 #include "inttypes.h"
@@ -25,8 +24,8 @@ arm_status arm_rfft_fast_init_f32_p(
 void dothing(){
 		float input_buffer[64];
 	float output_buffer[64];
-		for (int i = 0; i < 64; i++) {
-		input_buffer[i] = i;
+	for (int i = 0; i < 64; i++) {
+		input_buffer[i] = 10*arm_sin_f32(6.28f*i/4.0f);
 	}
 		arm_rfft_fast_instance_f32 rfft_instance;
 
@@ -42,7 +41,7 @@ void dothing(){
 	GPIOA->ODR &= ~((1<<14) | (1<<11));
 	TIM2->CNT = 0;
 	TIM2->CR1 =1;
-
+	// 2884 cycles for 64pt fft
 	arm_rfft_fast_f32(&rfft_instance, input_buffer, output_buffer, 0);
 	TIM2->CR1 = 0;
 	// GPIOA->ODR |= ((1<<14) | (1<<11));
